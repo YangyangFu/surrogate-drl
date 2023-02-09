@@ -70,7 +70,7 @@ args = get_args()
 def make_building_env(args):
     weather_file_path = "./USA_CA_Riverside.Muni.AP.722869_TMY3.epw"
     mass_flow_nor = [0.75]
-    npre_step = 3
+    n_next_steps = 3
     simulation_start_time = 212*24*3600.0
     simulation_end_time = simulation_start_time + args.step_per_epoch*args.time_step
     log_level = 7
@@ -85,7 +85,7 @@ def make_building_env(args):
     env = gym.make(args.task,
                    mass_flow_nor = mass_flow_nor,
                    weather_file = weather_file_path,
-                   npre_step = npre_step,
+                   n_next_steps = n_next_steps,
                    simulation_start_time = simulation_start_time,
                    simulation_end_time = simulation_end_time,
                    time_step = args.time_step,

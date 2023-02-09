@@ -54,7 +54,7 @@ def get_args(folder="experiment_results"):
 
     parser.add_argument('--logdir', type=str, default='log')
     
-    parser.add_argument('--device', type=str, default='cuda')
+    parser.add_argument('--device', type=str, default='cuda' if torch.cuda.is_available() else 'cpu')
     parser.add_argument('--frames-stack', type=int, default=1)
     parser.add_argument('--resume-path', type=str, default=None)
     parser.add_argument('--watch', default=False, action='store_true',
@@ -71,7 +71,7 @@ HVAC_args = get_args()
 def make_building_env(args = get_args()):
     weather_file_path = "./USA_CA_Riverside.Muni.AP.722869_TMY3.epw"
     mass_flow_nor = [0.75]
-    npre_step = 3
+    n_next_steps = 3
     simulation_start_time = 212*24*3600.0
     simulation_end_time = simulation_start_time + args.step_per_epoch*args.time_step
     log_level = 7
@@ -86,7 +86,7 @@ def make_building_env(args = get_args()):
     env = gym.make(args.task,
                    mass_flow_nor = mass_flow_nor,
                    weather_file = weather_file_path,
-                   npre_step = npre_step,
+                   n_next_steps = n_next_steps,
                    simulation_start_time = simulation_start_time,
                    simulation_end_time = simulation_end_time,
                    time_step = args.time_step,
@@ -173,7 +173,7 @@ def test_heu_agent(file_path = "./history_data/", heu = None):
     
     
 if __name__ == "__main__":
-    device = torch.device('cuda')
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     env = Gym_Wrapper(make_building_env(HVAC_args))
 
 

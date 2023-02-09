@@ -1,4 +1,4 @@
-exec docker run --runtime=nvidia -e NVIDIA_DRIVER_CAPABILITIES=compute,utility -e NVIDIA_VISIBLE_DEVICES=6\
+exec docker run \
       --user=root \
 	  --detach=false \
 	  -e DISPLAY=${DISPLAY} \
@@ -7,5 +7,5 @@ exec docker run --runtime=nvidia -e NVIDIA_DRIVER_CAPABILITIES=compute,utility -
 	  -v `pwd`:/mnt/shared \
 	  -i \
       -t \
-	  test_env /bin/bash -c "cd /mnt/shared && python /mnt/shared/test_TD3_BC.py"  
+	  yangyangfu/mpcdrl:cpu_py3 /bin/bash -c "export TUNE_DISABLE_AUTO_CALLBACK_SYNCER=1 && source activate base && export PYTHONPATH=$PYFMI_PY3_CONDA_PATH:$PYTHONPATH && cd /mnt/shared && python /mnt/shared/test_TD3_BC.py"  
 exit $

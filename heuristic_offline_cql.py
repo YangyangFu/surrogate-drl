@@ -68,7 +68,7 @@ args = get_args()
 def make_building_env(args):
     weather_file_path = "./USA_CA_Riverside.Muni.AP.722869_TMY3.epw"
     mass_flow_nor = [0.75]
-    npre_step = 3
+    n_next_steps = 3
     simulation_start_time = 212*24*3600.0
     simulation_end_time = simulation_start_time + args.step_per_epoch*args.time_step
     log_level = 7
@@ -83,7 +83,7 @@ def make_building_env(args):
     env = gym.make(args.task,
                    mass_flow_nor = mass_flow_nor,
                    weather_file = weather_file_path,
-                   npre_step = npre_step,
+                   n_next_steps = n_next_steps,
                    simulation_start_time = simulation_start_time,
                    simulation_end_time = simulation_end_time,
                    time_step = args.time_step,
@@ -387,7 +387,7 @@ def test_agent(file_path = "./history_data/", agent = None):
     return plot_one_ep_normalized(num_zone = 1, history_Z_T = l_indoor, history_Env_T = l_outdoor, his_cost = c, num_days = args.num_of_days, fig_path_name = './heu_offline_cql_test_data_simulation.png')
 
 if __name__ == "__main__":
-    device = torch.device('cuda')
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 
 
